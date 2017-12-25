@@ -29,10 +29,13 @@ Simple example:
     return 0;
   }
 
-可能结果
-.. code-block:: c++
-  do some statistics:
-  key:key_0, weight:0, times:4866
-  key:key_1, weight:1, times:7479
-  key:key_2, weight:4, times:20708
-  key:key_3, weight:9, times:66947
+可能结果:
+---------
+
+::
+
+ do some statistics:
+ key:key_0, weight:0, times:4866
+ key:key_1, weight:1, times:7479
+ key:key_2, weight:4, times:20708
+ key:key_3, weight:9, times:66947
