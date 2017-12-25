@@ -14,6 +14,7 @@
 #include <sys/syscall.h>
 #include <vector>
 #include <algorithm>
+#include <type_traits>
 
 template<typename T>
 static inline typename std::enable_if<std::is_floating_point<T>::value, T>::type Random(T low=0, T high=1) {
@@ -41,7 +42,7 @@ static std::vector<std::pair<Key, Weight>> WeightSort(std::vector<std::pair<Key,
   }
   std::sort(weight.begin(), weight.end(), [](std::pair<size_t, Weight>& i, std::pair<size_t, Weight>& j){return std::get<1>(i) > std::get<1>(j);});
 
-  std::vector<std::pair<Key, Weight>> out(in.size());
+  typename std::decay<decltype(in)>::type out(in.size());
   for (size_t i =0; i < in.size(); i ++) {
     out[i] = std::move(in[std::get<0>(weight[i])]);
   }
@@ -56,12 +57,12 @@ static std::vector<std::pair<Key, Weight>> WeightSort(const std::vector<std::pai
   }
   std::vector<std::pair<size_t, Weight>> weight(in.size());
   for (int i = 0; i < in.size(); i ++) {
-    Weight w = std::get<1>(in[i]) + Random(0, sum);
+    Weight w = std::get<1>(in[i]) + Random((Weight)0, sum);
     weight[i] = std::make_pair(i, w);
   }
   std::sort(weight.begin(), weight.end(), [](std::pair<size_t, Weight>& i, std::pair<size_t, Weight>& j){return std::get<1>(i) > std::get<1>(j);});
 
-  std::vector<std::pair<Key, Weight>> out(in.size());
+  typename std::decay<decltype(in)>::type out(in.size());
   for (size_t i =0; i < in.size(); i ++) {
     out[i] = in[std::get<0>(weight[i])];
   }
